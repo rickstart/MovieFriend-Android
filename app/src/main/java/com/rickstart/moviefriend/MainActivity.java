@@ -16,12 +16,15 @@ import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private MovieGridFragment mMovieGridFragment;
+    private MovieDetailFragment mMovieDetailFragment;
+
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -45,23 +48,57 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
+        switch (position) {
+            case 1:
+                mTitle = getString(R.string.mobile);
+                mMovieDetailFragment = new MovieDetailFragment();
+                mTitle = getString(R.string.title_section2);
+
+                mMovieDetailFragment = new MovieDetailFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, mMovieDetailFragment)
+                        .commit();
+                break;
+            case 2:
+                mTitle = getString(R.string.title_section2);
+                mMovieGridFragment = new MovieGridFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, mMovieGridFragment)
+                        .commit();
+                break;
+            case 3:
+                mTitle = getString(R.string.title_section3);
+                break;
+        }
+
+        // update the main content by replacing fragments
+        /*FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+                .commit();*/
     }
 
     public void onSectionAttached(int number) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
         switch (number) {
             case 1:
                 mTitle = getString(R.string.mobile);
                 break;
             case 2:
+                mMovieDetailFragment = new MovieDetailFragment();
                 mTitle = getString(R.string.title_section2);
+
+                mMovieDetailFragment = new MovieDetailFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, mMovieDetailFragment)
+                        .commit();
+
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
+
                 break;
         }
     }
@@ -121,7 +158,7 @@ public class MainActivity extends ActionBarActivity
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            section = sectionNumber;
+
             fragment.setArguments(args);
             return fragment;
         }
@@ -142,8 +179,9 @@ public class MainActivity extends ActionBarActivity
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+
+            ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+            section = getArguments().getInt(ARG_SECTION_NUMBER);
         }
     }
 
