@@ -93,6 +93,10 @@ public class MovieGridFragment extends Fragment {
         }
     }
 
+    public String GetLastName(){
+        return "my name";
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -124,5 +128,6 @@ public class MovieGridFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+
 
 }
