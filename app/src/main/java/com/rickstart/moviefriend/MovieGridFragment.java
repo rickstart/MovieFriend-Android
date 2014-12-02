@@ -70,7 +70,8 @@ public class MovieGridFragment extends Fragment {
         GridView gvMovies = (GridView) row.findViewById(R.id.gvMovies);
 
 
-        String[] list = new String[] {"Alex Rojas","2","Ricardo","4","5","6","7"};
+
+        String[] list = new String[] {"Alex Rojas","Yussel Luna","Ricardo","4","5","6","7"};
 
 
         MovieAdapter adapter = new MovieAdapter (getActivity(), list);
