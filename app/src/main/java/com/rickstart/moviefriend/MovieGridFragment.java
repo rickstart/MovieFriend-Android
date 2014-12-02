@@ -121,4 +121,9 @@ public class MovieGridFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    public void getNickName(){
+        return "apodo nuevo";
+
+    }
+
 }
