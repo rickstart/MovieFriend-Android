@@ -82,11 +82,19 @@ public class MovieGridFragment extends Fragment {
 
     }
 
+    public String getName(){
+        return "Ricardo";
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    public String GetLastName(){
+        return "my name";
     }
 
     @Override
@@ -125,5 +133,6 @@ public class MovieGridFragment extends Fragment {
         return "apodo nuevo";
 
     }
+
 
 }
