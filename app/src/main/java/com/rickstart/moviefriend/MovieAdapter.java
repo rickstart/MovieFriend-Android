@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.RatingBar;
 
 /**
  * Created by Rick on 26/11/14.
@@ -30,9 +29,9 @@ public class MovieAdapter  extends ArrayAdapter<String> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.item_grid_movie, parent, false);
         float rate = (float) 2.50;
-        RatingBar rating = (RatingBar) rowView.findViewById(R.id.ratingBar);
+        /*RatingBar rating = (RatingBar) rowView.findViewById(R.id.ratingBar);
         rating.setNumStars(5);
-        rating.setRating(rate);
+        rating.setRating(rate);*/
 
         return rowView;
     }

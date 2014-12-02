@@ -67,13 +67,13 @@ public class MovieGridFragment extends Fragment {
         // Inflate the layout for this fragment
         View row = inflater.inflate(R.layout.fragment_movie_grid, container, false);
 
-        GridView gv_movies = (GridView) row.findViewById(R.id.gridView);
+        GridView gvMovies = (GridView) row.findViewById(R.id.gvMovies);
 
-        String[] list = new String[] {"1","2","3"};
+        String[] list = new String[] {"1","2","3","4","5","6","7"};
 
         MovieAdapter adapter = new MovieAdapter (getActivity(), list);
 
-        gv_movies.setAdapter(adapter);
+        gvMovies.setAdapter(adapter);
 
         return row;
 
