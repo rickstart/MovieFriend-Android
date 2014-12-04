@@ -245,9 +245,8 @@ public class MovieGridFragment extends Fragment {
     {
 
         MovieAdapter adapter = new MovieAdapter (getActivity(), movieTitles);
-
         gvMovies.setAdapter(adapter);
-        //moviesList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, movieTitles));
+
     }
 
 }
