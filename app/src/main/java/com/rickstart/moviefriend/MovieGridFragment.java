@@ -46,6 +46,7 @@ public class MovieGridFragment extends Fragment {
     private EditText searchBox;
     private Button searchButton;
     private ListView moviesList;
+    GridView gvMovies;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,6 +57,7 @@ public class MovieGridFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private String query = "frozen";
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -95,12 +97,12 @@ public class MovieGridFragment extends Fragment {
         // Inflate the layout for this fragment
         View row = inflater.inflate(R.layout.fragment_movie_grid, container, false);
 
-        GridView gvMovies = (GridView) row.findViewById(R.id.gvMovies);
+        gvMovies = (GridView) row.findViewById(R.id.gvMovies);
 
 
 
         String[] list = new String[] {"Alex Rojas","Yussel Luna","Ricardo","4","5","6","7"};
-        new RequestTask().execute("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=" + API_KEY + "&q=summer&page_limit=" + MOVIE_PAGE_LIMIT);
+        new RequestTask().execute("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=" + API_KEY + "&q="+query+"&page_limit=" + MOVIE_PAGE_LIMIT);
 
         MovieAdapter adapter = new MovieAdapter (getActivity(), list);
 
@@ -162,8 +164,7 @@ public class MovieGridFragment extends Fragment {
 
     }
 
-    private class RequestTask extends AsyncTask<String, String, String>
-    {
+    private class RequestTask extends AsyncTask<String, String, String>{
         // make a request to the specified url
         @Override
         protected String doInBackground(String... uri)
@@ -218,18 +219,22 @@ public class MovieGridFragment extends Fragment {
 
                     // add each movie's title to an array
                     String[] movieTitles = new String[movies.length()];
+                    String[] moviePoster = new String[movies.length()];
                     for (int i = 0; i < movies.length(); i++)
                     {
                         JSONObject movie = movies.getJSONObject(i);
                         movieTitles[i] = movie.getString("title");
+                        JSONObject posters= movie.getJSONObject("posters");
+                        moviePoster[i] = posters.getString("original");
                     }
 
                     Log.d("Test", jsonResponse.toString());
                     // update the UI
-                    refreshMoviesList(movieTitles);
+                    refreshMoviesList(moviePoster);
                 }
                 catch (JSONException e)
                 {
+
                     Log.d("Test", "Failed to parse the JSON response!");
                 }
             }
@@ -238,6 +243,10 @@ public class MovieGridFragment extends Fragment {
 
     private void refreshMoviesList(String[] movieTitles)
     {
+
+        MovieAdapter adapter = new MovieAdapter (getActivity(), movieTitles);
+
+        gvMovies.setAdapter(adapter);
         //moviesList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, movieTitles));
     }
 
