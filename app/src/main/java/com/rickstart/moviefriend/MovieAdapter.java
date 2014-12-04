@@ -3,6 +3,8 @@ package com.rickstart.moviefriend;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +41,11 @@ public class MovieAdapter  extends ArrayAdapter<String> {
         View rowView = inflater.inflate(R.layout.item_grid_movie, parent, false);
         float rate = (float) 2.50;
         ImageView img = (ImageView) rowView.findViewById(R.id.poster);
-        img.setImageBitmap(loadBitmap(movies[position]));
+        Log.e("POSTER", movies[position]);
+
+        new DownloadImageTask(img)
+                .execute(movies[position]);
+        //img.setImageBitmap(loadBitmap(movies[position]));
         /*RatingBar rating = (RatingBar) rowView.findViewById(R.id.ratingBar);
         rating.setNumStars(5);
         rating.setRating(rate);*/
@@ -91,4 +97,29 @@ public class MovieAdapter  extends ArrayAdapter<String> {
         return bm;
     }
 
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
 }
