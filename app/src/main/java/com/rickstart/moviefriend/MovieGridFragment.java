@@ -38,7 +38,7 @@ import java.io.IOException;
  */
 public class MovieGridFragment extends Fragment {
 
-    private static final String API_KEY = "35hg37n2zaybbwf7wncj9vgw";
+    private static final String API_KEY = "nfdndcd3bfbe3bggy6zh9774";
 
     // the number of movies you want to get in a single request to their web server
     private static final int MOVIE_PAGE_LIMIT = 10;
@@ -216,12 +216,20 @@ public class MovieGridFragment extends Fragment {
                     // fetch the array of movies in the response
                     JSONArray movies = jsonResponse.getJSONArray("movies");
 
+
                     // add each movie's title to an array
                     String[] movieTitles = new String[movies.length()];
+                    String[] moviePoster = new String[movies.length()];
                     for (int i = 0; i < movies.length(); i++)
                     {
+
                         JSONObject movie = movies.getJSONObject(i);
+
                         movieTitles[i] = movie.getString("title");
+                        JSONObject posterJSON = movie.getJSONObject("posters");
+                        moviePoster[i]= posterJSON.getString("original");
+
+
                     }
 
                     Log.d("Test", jsonResponse.toString());
