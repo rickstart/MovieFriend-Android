@@ -129,7 +129,7 @@ public class MovieGridFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    public void getNickName(){
+    public String getNickName(){
         return "apodo nuevo";
 
     }
