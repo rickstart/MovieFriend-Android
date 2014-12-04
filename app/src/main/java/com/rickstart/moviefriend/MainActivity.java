@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 
@@ -24,6 +25,7 @@ public class MainActivity extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private MovieGridFragment mMovieGridFragment;
     private MovieDetailFragment mMovieDetailFragment;
+    private String global_variable;
 
 
     /**
@@ -118,6 +120,14 @@ public class MainActivity extends ActionBarActivity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.main, menu);
+
+
+            MenuItem search = menu.findItem(R.id.search_user);
+
+            //Keep a global variable of this so you can set it within the next listener
+            SearchView user_search = (SearchView) search.getActionView();
+
+
             restoreActionBar();
             return true;
         }
