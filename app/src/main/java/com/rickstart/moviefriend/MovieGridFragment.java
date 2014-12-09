@@ -38,10 +38,10 @@ import java.io.IOException;
  */
 public class MovieGridFragment extends Fragment {
 
-    private static final String API_KEY = "nfdndcd3bfbe3bggy6zh9774";
+    private static final String API_KEY = "35hg37n2zaybbwf7wncj9vgw";
 
     // the number of movies you want to get in a single request to their web server
-    private static final int MOVIE_PAGE_LIMIT = 10;
+    private static final int MOVIE_PAGE_LIMIT = 20;
 
     private EditText searchBox;
     private Button searchButton;
@@ -57,18 +57,10 @@ public class MovieGridFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private String query = "frozen";
+    private String query = "back";
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MovieGridFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static MovieGridFragment newInstance(String param1, String param2) {
         MovieGridFragment fragment = new MovieGridFragment();
         Bundle args = new Bundle();
@@ -101,20 +93,18 @@ public class MovieGridFragment extends Fragment {
 
 
 
-        String[] list = new String[] {"Alex Rojas","Yussel Luna","Ricardo","4","5","6","7"};
+        // String[] list = new String[] {"Alex Rojas","Yussel Luna","Ricardo","4","5","6","7"};
         new RequestTask().execute("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=" + API_KEY + "&q="+query+"&page_limit=" + MOVIE_PAGE_LIMIT);
 
-        MovieAdapter adapter = new MovieAdapter (getActivity(), list);
+        //MovieAdapter adapter = new MovieAdapter (getActivity(), list);
 
-        gvMovies.setAdapter(adapter);
+        //gvMovies.setAdapter(adapter);
 
         return row;
 
     }
 
-    public String getName(){
-        return "Ricardo";
-    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -123,9 +113,6 @@ public class MovieGridFragment extends Fragment {
         }
     }
 
-    public String GetLastName(){
-        return "my name";
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -217,20 +204,15 @@ public class MovieGridFragment extends Fragment {
                     // fetch the array of movies in the response
                     JSONArray movies = jsonResponse.getJSONArray("movies");
 
-
                     // add each movie's title to an array
                     String[] movieTitles = new String[movies.length()];
                     String[] moviePoster = new String[movies.length()];
                     for (int i = 0; i < movies.length(); i++)
                     {
-
                         JSONObject movie = movies.getJSONObject(i);
-
                         movieTitles[i] = movie.getString("title");
-
-                        JSONObject posterJSON = movie.getJSONObject("posters");
-                        moviePoster[i]= posterJSON.getString("original");
-
+                        JSONObject posters= movie.getJSONObject("posters");
+                        moviePoster[i] = posters.getString("original").replace("_tmb","_ori");
                     }
 
                     Log.d("Test", jsonResponse.toString());

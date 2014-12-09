@@ -119,7 +119,13 @@ public class MovieAdapter  extends ArrayAdapter<String> {
         }
 
         protected void onPostExecute(Bitmap result) {
+
+
+            //bmImage.setImageBitmap(Bitmap.createScaledBitmap(result, 180, 200, false));
             bmImage.setImageBitmap(result);
         }
     }
+
+
+
 }
