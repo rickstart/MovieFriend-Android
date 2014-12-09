@@ -11,11 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
+import java.util.ArrayList;
 
 /**
  * Created by Rick on 26/11/14.
@@ -27,6 +24,7 @@ public class MovieAdapter  extends ArrayAdapter<String> {
 
 
     String[] movies;
+    ArrayList<Bitmap> posters = new ArrayList<Bitmap>();
 
     public MovieAdapter(Context context, String[] movies, int imageWidth ) {
         super(context, R.layout.item_grid_movie, movies);
@@ -45,13 +43,19 @@ public class MovieAdapter  extends ArrayAdapter<String> {
         ImageView img = (ImageView) rowView.findViewById(R.id.poster);
         Log.e("POSTER", movies[position]);
         img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        //img.setLayoutParams(new GridView.LayoutParams(imageWidth,
-        //        imageWidth));
-
         img.setOnClickListener(new OnImageClickListener(position));
+        try{
 
-        new DownloadImageTask(img)
-                .execute(movies[position]);
+            img.setImageBitmap(Bitmap.createScaledBitmap(posters.get(position), imageWidth, (imageWidth + (imageWidth / 3)), false));
+
+        }
+        catch (Exception e){
+            new DownloadImageTask(img, position)
+                    .execute(movies[position]);
+
+        }
+
+
         //img.setImageBitmap(loadBitmap(movies[position]));
         /*RatingBar rating = (RatingBar) rowView.findViewById(R.id.ratingBar);
         rating.setNumStars(5);
@@ -60,58 +64,18 @@ public class MovieAdapter  extends ArrayAdapter<String> {
         return rowView;
     }
 
-    public Bitmap loadBitmap(String url)
-    {
-        Bitmap bm = null;
-        InputStream is = null;
-        BufferedInputStream bis = null;
-        try
-        {
-            URLConnection conn = new URL(url).openConnection();
-            conn.connect();
-            is = conn.getInputStream();
-            bis = new BufferedInputStream(is, 8192);
-            bm = BitmapFactory.decodeStream(bis);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        finally {
-            if (bis != null)
-            {
-                try
-                {
-                    bis.close();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-            if (is != null)
-            {
-                try
-                {
-                    is.close();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return bm;
-    }
-
-
 
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
+        int position;
 
-        public DownloadImageTask(ImageView bmImage) {
+        public DownloadImageTask(ImageView bmImage, int position) {
+
+
             this.bmImage = bmImage;
+            this.position = position;
+
         }
 
         protected Bitmap doInBackground(String... urls) {
@@ -130,13 +94,7 @@ public class MovieAdapter  extends ArrayAdapter<String> {
         protected void onPostExecute(Bitmap result) {
 
 
-
-
-            //bmImage.setImageBitmap(result);
-
-            // image view click listener
-
-
+            posters.add(position,result);
             bmImage.setImageBitmap(Bitmap.createScaledBitmap(result, imageWidth, (imageWidth + (imageWidth/3)), false));
             //bmImage.setImageBitmap(result);
         }

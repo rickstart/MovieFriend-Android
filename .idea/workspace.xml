@@ -72,10 +72,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07922556-b35e-41d4-90b0-fedde80200b9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/util/GalleryUtils.java" afterPath="$PROJECT_DIR$/app/src/main/java/util/GalleryUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rickstart/moviefriend/MovieAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rickstart/moviefriend/MovieAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rickstart/moviefriend/MovieGridFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rickstart/moviefriend/MovieGridFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_grid_movie.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_grid_movie.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MovieFriend.iws" />
@@ -154,9 +151,11 @@
       <file leaf-file-name="MovieAdapter.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rickstart/moviefriend/MovieAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.09019608" vertical-offset="1906" max-vertical-offset="2416">
-              <caret line="139" column="108" selection-start-line="139" selection-start-column="108" selection-end-line="139" selection-end-column="108" />
-              <folding />
+            <state vertical-scroll-proportion="-0.21088435" vertical-offset="511" max-vertical-offset="1824">
+              <caret line="42" column="68" selection-start-line="42" selection-start-column="62" selection-end-line="42" selection-end-column="68" />
+              <folding>
+                <element signature="e#650#658#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1073,7 +1072,7 @@
     <property name="recentsLimit" value="5" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="04c4f681" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="TA44905NRC" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Galax" />
   </component>
   <component name="RecentsManager">
@@ -1290,7 +1289,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32724506" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6291161" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.6291161" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27625203" sideWeight="0.50076103" order="3" side_tool="true" content_ui="tabs" />
@@ -1740,9 +1739,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rickstart/moviefriend/MovieAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09019608" vertical-offset="1906" max-vertical-offset="2416">
-          <caret line="139" column="108" selection-start-line="139" selection-start-column="108" selection-end-line="139" selection-end-column="108" />
-          <folding />
+        <state vertical-scroll-proportion="-0.21088435" vertical-offset="511" max-vertical-offset="1824">
+          <caret line="42" column="68" selection-start-line="42" selection-start-column="62" selection-end-line="42" selection-end-column="68" />
+          <folding>
+            <element signature="e#650#658#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
