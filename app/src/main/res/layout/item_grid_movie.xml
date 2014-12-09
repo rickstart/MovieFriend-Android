@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/poster"
-        android:layout_width="170dp"
-        android:layout_height="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
         android:src="@drawable/hobbit"/>
 

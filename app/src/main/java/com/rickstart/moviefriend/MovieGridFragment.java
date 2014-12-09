@@ -301,6 +301,7 @@ public class MovieGridFragment extends Fragment {
 
     }
 
+
     private void initilizeGridLayout() {
 
 

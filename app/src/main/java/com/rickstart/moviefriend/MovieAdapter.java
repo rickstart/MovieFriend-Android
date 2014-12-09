@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import java.io.BufferedInputStream;
@@ -45,6 +44,11 @@ public class MovieAdapter  extends ArrayAdapter<String> {
         float rate = (float) 2.50;
         ImageView img = (ImageView) rowView.findViewById(R.id.poster);
         Log.e("POSTER", movies[position]);
+        img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        //img.setLayoutParams(new GridView.LayoutParams(imageWidth,
+        //        imageWidth));
+
+        img.setOnClickListener(new OnImageClickListener(position));
 
         new DownloadImageTask(img)
                 .execute(movies[position]);
@@ -101,6 +105,8 @@ public class MovieAdapter  extends ArrayAdapter<String> {
     }
 
 
+
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
@@ -125,15 +131,13 @@ public class MovieAdapter  extends ArrayAdapter<String> {
 
 
 
-            bmImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            bmImage.setLayoutParams(new GridView.LayoutParams(imageWidth,
-                    imageWidth));
-            bmImage.setImageBitmap(result);
+
+            //bmImage.setImageBitmap(result);
 
             // image view click listener
-            bmImage.setOnClickListener(new OnImageClickListener(0));
 
-            //bmImage.setImageBitmap(Bitmap.createScaledBitmap(result, 180, 200, false));
+
+            bmImage.setImageBitmap(Bitmap.createScaledBitmap(result, imageWidth, (imageWidth + (imageWidth/3)), false));
             //bmImage.setImageBitmap(result);
         }
     }
