@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import java.io.BufferedInputStream;
@@ -22,15 +23,17 @@ import java.net.URLConnection;
  */
 public class MovieAdapter  extends ArrayAdapter<String> {
     private final Context context;
+    private static int imageWidth;
 
 
 
     String[] movies;
 
-    public MovieAdapter(Context context, String[] movies) {
+    public MovieAdapter(Context context, String[] movies, int imageWidth ) {
         super(context, R.layout.item_grid_movie, movies);
         this.context = context;
         this.movies = movies;
+        this.imageWidth = imageWidth;
 
     }
 
@@ -121,8 +124,38 @@ public class MovieAdapter  extends ArrayAdapter<String> {
         protected void onPostExecute(Bitmap result) {
 
 
-            //bmImage.setImageBitmap(Bitmap.createScaledBitmap(result, 180, 200, false));
+
+            bmImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            bmImage.setLayoutParams(new GridView.LayoutParams(imageWidth,
+                    imageWidth));
             bmImage.setImageBitmap(result);
+
+            // image view click listener
+            bmImage.setOnClickListener(new OnImageClickListener(0));
+
+            //bmImage.setImageBitmap(Bitmap.createScaledBitmap(result, 180, 200, false));
+            //bmImage.setImageBitmap(result);
+        }
+    }
+    class OnImageClickListener implements View.OnClickListener {
+
+        int _postion;
+
+        // constructor
+        public OnImageClickListener(int position) {
+            this._postion = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            /*
+            FullScreenImageFragment fullScreen = FullScreenImageFragment.newInstance(_postion, picturePaths);
+
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, fullScreen, FullScreenImageFragment.TAG);
+            fragmentTransaction.commit();*/
+
         }
     }
 }

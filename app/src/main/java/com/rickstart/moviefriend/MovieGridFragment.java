@@ -1,12 +1,18 @@
 package com.rickstart.moviefriend;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,6 +33,8 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import util.GalleryUtils;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,10 +51,14 @@ public class MovieGridFragment extends Fragment {
     // the number of movies you want to get in a single request to their web server
     private static final int MOVIE_PAGE_LIMIT = 20;
 
+    private NavigationDrawerFragment mNavigationDrawerFragment;
     private EditText searchBox;
     private Button searchButton;
     private ListView moviesList;
     GridView gvMovies;
+    private int columnWidth;
+
+    private GalleryUtils galleryUtils;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -88,10 +100,8 @@ public class MovieGridFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View row = inflater.inflate(R.layout.fragment_movie_grid, container, false);
-
         gvMovies = (GridView) row.findViewById(R.id.gvMovies);
-
-
+        galleryUtils = new GalleryUtils(getActivity());
 
         // String[] list = new String[] {"Alex Rojas","Yussel Luna","Ricardo","4","5","6","7"};
         new RequestTask().execute("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=" + API_KEY + "&q="+query+"&page_limit=" + MOVIE_PAGE_LIMIT);
@@ -113,6 +123,63 @@ public class MovieGridFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //if (!mNavigationDrawerFragment.isDrawerOpen()) {
+        menu.clear();
+        inflater.inflate(R.menu.grid_movies, menu);
+        //    showGlobalContextActionBar();
+        //}
+        //super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void showGlobalContextActionBar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setTitle(R.string.app_name);
+    }
+
+    private ActionBar getActionBar() {
+        return ((ActionBarActivity) getActivity()).getSupportActionBar();
+    }
+    /*
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        menu.clear();
+        inflater.inflate(R.menu.grid_movies, menu);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+
+            SearchManager manager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+
+            SearchView search = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+
+            search.setSearchableInfo(manager.getSearchableInfo(getActivity().getComponentName()));
+
+            search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String query) {
+
+                    //loadData(query);
+
+                    return true;
+
+                }
+
+            });
+
+        }
+
+    }
+    */
 
     @Override
     public void onAttach(Activity activity) {
@@ -146,10 +213,7 @@ public class MovieGridFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    public String getNickName(){
-        return "apodo nuevo";
 
-    }
 
     private class RequestTask extends AsyncTask<String, String, String>{
         // make a request to the specified url
@@ -231,9 +295,27 @@ public class MovieGridFragment extends Fragment {
     private void refreshMoviesList(String[] movieTitles)
     {
 
-        MovieAdapter adapter = new MovieAdapter (getActivity(), movieTitles);
+        initilizeGridLayout();
+        MovieAdapter adapter = new MovieAdapter (getActivity(), movieTitles, columnWidth);
         gvMovies.setAdapter(adapter);
 
+    }
+
+    private void initilizeGridLayout() {
+
+
+        Resources r = getResources();
+        float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                GalleryUtils.GRID_PADDING, r.getDisplayMetrics());
+
+        columnWidth = (int) ((galleryUtils.getScreenWidth() -(2*padding) - ((GalleryUtils.NUM_OF_COLUMNS + 1) * padding)) / GalleryUtils.NUM_OF_COLUMNS);
+
+        gvMovies.setNumColumns(GalleryUtils.NUM_OF_COLUMNS);
+        gvMovies.setColumnWidth(columnWidth);
+        gvMovies.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+        gvMovies.setPadding((int) padding, (int) padding, (int) padding,(int) padding);
+        gvMovies.setHorizontalSpacing((int) padding);
+        gvMovies.setVerticalSpacing((int) padding);
     }
 
 }

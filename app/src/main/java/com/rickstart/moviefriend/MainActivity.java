@@ -115,15 +115,45 @@ public class MainActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+/*
+            getMenuInflater().inflate(R.menu.grid_movies, menu);
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+
+                SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+                SearchView search = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+
+                search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+
+                search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                    @Override
+                    public boolean onQueryTextSubmit(String s) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String query) {
+
+                        //loadData(query);
+
+                        return true;
+
+                    }
+
+                });
+
+
+                restoreActionBar();
+            }*/
+
             restoreActionBar();
-            return true;
         }
-        return super.onCreateOptionsMenu(menu);
+        return false;
+        //return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
