@@ -72,7 +72,7 @@ public class MovieGridFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private String query = "back";
+    private String query = "frozen";
     private OnFragmentInteractionListener mListener;
 
 
@@ -313,6 +313,7 @@ public class MovieGridFragment extends Fragment {
         gvMovies.setAdapter(adapter);
 
     }
+
 
     private void initilizeGridLayout() {
 
