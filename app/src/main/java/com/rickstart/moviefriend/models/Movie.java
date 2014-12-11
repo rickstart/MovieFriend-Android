@@ -1,4 +1,4 @@
-package Model;
+package com.rickstart.moviefriend.models;
 
 /**
  * Created by mobilestudio03 on 08/12/14.
