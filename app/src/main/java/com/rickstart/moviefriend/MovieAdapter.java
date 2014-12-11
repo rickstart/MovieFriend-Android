@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -36,10 +38,34 @@ public class MovieAdapter  extends ArrayAdapter<String> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ViewHolder viewHolder = null;
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.item_grid_movie, null);
+            viewHolder = new ViewHolder();
+            viewHolder.poster = (ImageView) convertView.findViewById(R.id.poster);
+            convertView.setTag(viewHolder);
+        }
+
+        viewHolder = (ViewHolder) convertView.getTag();
+        viewHolder.imageURL = movies[position];
+        new DownloadAsyncTask().execute(viewHolder);
+        return convertView;
+
+    }
+/*
+        @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
         View rowView = inflater.inflate(R.layout.item_grid_movie, parent, false);
-        float rate = (float) 2.50;
+
+
         ImageView img = (ImageView) rowView.findViewById(R.id.poster);
         Log.e("POSTER", movies[position]);
         img.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -55,15 +81,54 @@ public class MovieAdapter  extends ArrayAdapter<String> {
 
         }
 
+            return rowView;
 
         //img.setImageBitmap(loadBitmap(movies[position]));
         /*RatingBar rating = (RatingBar) rowView.findViewById(R.id.ratingBar);
         rating.setNumStars(5);
-        rating.setRating(rate);*/
+        rating.setRating(rate);
 
-        return rowView;
+        //
+    }
+*/
+
+    static class ViewHolder {
+
+        ImageView poster;
+        Bitmap bitmap;
+        String imageURL;
+
     }
 
+    private class DownloadAsyncTask extends AsyncTask<ViewHolder, Void, ViewHolder> {
+
+        @Override
+        protected ViewHolder doInBackground(ViewHolder... params) {
+            // TODO Auto-generated method stub
+            //load image directly
+            ViewHolder viewHolder = params[0];
+            try {
+                URL imageURL = new URL(viewHolder.imageURL);
+                viewHolder.bitmap = BitmapFactory.decodeStream(imageURL.openStream());
+            } catch (IOException e) {
+                // TODO: handle exception
+                Log.e("error", "Downloading Image Failed");
+                viewHolder.bitmap = null;
+            }
+
+            return viewHolder;
+        }
+
+        @Override
+        protected void onPostExecute(ViewHolder result) {
+            // TODO Auto-generated method stub
+            if (result.bitmap == null) {
+                result.poster.setImageResource(R.drawable.hobbit);
+            } else {
+                result.poster.setImageBitmap(Bitmap.createScaledBitmap(result.bitmap, imageWidth, (imageWidth + (imageWidth / 3)), false));
+            }
+        }
+    }
 
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
