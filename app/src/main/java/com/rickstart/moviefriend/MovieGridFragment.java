@@ -236,6 +236,7 @@ public class MovieGridFragment extends Fragment {
                     // request successful - read the response and close the connection
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     response.getEntity().writeTo(out);
+                    Log.d ("salida: ",out.toString());
                     out.close();
                     responseString = out.toString();
                 }
@@ -280,7 +281,9 @@ public class MovieGridFragment extends Fragment {
                    // String[] moviePoster = new String[movies.length()];
                     for (int i = 0; i < movies.length(); i++)
                     {
+                        movieArrayList.add(new Movie());
                         JSONObject movie = movies.getJSONObject(i);
+                        Log.e("MO_V", movie.toString());
                         //movieTitles[i] = movie.getString("title");
                         JSONObject posters= movie.getJSONObject("posters");
                        // moviePoster[i] = posters.getString("original").replace("_tmb","_ori");
@@ -302,11 +305,11 @@ public class MovieGridFragment extends Fragment {
         }
     }
 
-    private void refreshMoviesList(String[] movieTitles,String[] moviePoster)
+    private void refreshMoviesList(ArrayList<Movie> movies)
     {
 
         initilizeGridLayout();
-        MovieAdapter adapter = new MovieAdapter (getActivity(), movieTitles, columnWidth,moviePoster);
+        MovieAdapter adapter = new MovieAdapter (getActivity(),columnWidth,movies);
         gvMovies.setAdapter(adapter);
 
     }

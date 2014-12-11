@@ -11,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import com.rickstart.moviefriend.models.Movie;
+import java.util.*;
 
 /**
  * Created by Rick on 26/11/14.
@@ -27,7 +30,7 @@ public class MovieAdapter  extends ArrayAdapter<Movie> {
 
 
 
-    List<Movie> movies= new List<Movie>();
+    List<Movie> movies= new ArrayList<Movie>();
 
 
     public MovieAdapter(Context context, int imageWidth,List movies ) {
@@ -35,7 +38,7 @@ public class MovieAdapter  extends ArrayAdapter<Movie> {
         this.context = context;
         this.movies = movies;
         this.imageWidth = imageWidth;
-        this.titles=titles;
+
 
     }
 
@@ -46,11 +49,12 @@ public class MovieAdapter  extends ArrayAdapter<Movie> {
         View rowView = inflater.inflate(R.layout.item_grid_movie, parent, false);
         float rate = (float) 2.50;
         ImageView img = (ImageView) rowView.findViewById(R.id.poster);
-        Log.e("POSTER ("+position+"):", movies[position]);
-        Log.e("POSTER ("+position+"):", titles[position]);
+        TextView tituloTV = (TextView) rowView.findViewById(R.id.tv_titulo);
+        Log.e("POSTER ("+position+"):", movies.get(position).getTitle());
+        tituloTV.setText(movies.get(position).getTitle());
 
         new DownloadImageTask(img)
-                .execute(movies[position]);
+                .execute(movies.get(position).getPoster());
         //img.setImageBitmap(loadBitmap(movies[position]));
         /*RatingBar rating = (RatingBar) rowView.findViewById(R.id.ratingBar);
         rating.setNumStars(5);
