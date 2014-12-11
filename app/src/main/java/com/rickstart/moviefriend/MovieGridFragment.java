@@ -286,8 +286,10 @@ public class MovieGridFragment extends Fragment {
                         Log.e("MO_V", movie.toString());
                         //movieTitles[i] = movie.getString("title");
                         JSONObject posters= movie.getJSONObject("posters");
+                        JSONObject rating= movie.getJSONObject("ratings");
                        // moviePoster[i] = posters.getString("original").replace("_tmb","_ori");
                         movieArrayList.get(i).setTitle(movie.getString("title"));
+                        movieArrayList.get(i).setRating(Float.parseFloat(rating.getString("audience_score")));
                         movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_ori"));
                     }
 

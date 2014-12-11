@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -58,13 +59,21 @@ public class MovieAdapter  extends ArrayAdapter<Movie> {
             viewHolder = new ViewHolder();
             viewHolder.poster = (ImageView) convertView.findViewById(R.id.poster);
             viewHolder.textView = (TextView) convertView.findViewById(R.id.tv_titulo);
+            viewHolder.rating=(RatingBar) convertView.findViewById(R.id.rb_score);
             convertView.setTag(viewHolder);
         }
+        double rating;
         Movie movie = movies.get(position);
+
+        rating= movie.getRating()*0.01*5;
 
         viewHolder = (ViewHolder) convertView.getTag();
         viewHolder.imageURL = movie.getPoster();
         viewHolder.textView.setText(movie.getTitle());
+        viewHolder.rating.setRating((float) rating);
+
+
+
         new DownloadAsyncTask().execute(viewHolder);
         return convertView;
 
@@ -122,6 +131,7 @@ public class MovieAdapter  extends ArrayAdapter<Movie> {
         Bitmap bitmap;
         String imageURL;
         String title;
+        RatingBar rating;
 
     }
 

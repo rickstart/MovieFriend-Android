@@ -6,7 +6,7 @@ package com.rickstart.moviefriend.models;
 public class Movie {
     private String poster;
     private String title;
-    private String rating;
+    private double rating;
 
     public String getPoster() {
         return poster;
@@ -24,11 +24,11 @@ public class Movie {
         this.title = title;
     }
 
-    public String getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 }
