@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MovieFriend.iml" filepath="$PROJECT_DIR$/MovieFriend.iml" />
+<<<<<<< HEAD
+=======
+      <module fileurl="file://$PROJECT_DIR$/MovieFriend-Android.iml" filepath="$PROJECT_DIR$/MovieFriend-Android.iml" />
+>>>>>>> e1a2cebb1d1c6fc1d1c66abc68d915489be9b3c0
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/facebook/facebook.iml" filepath="$PROJECT_DIR$/facebook/facebook.iml" />
     </modules>

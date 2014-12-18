@@ -1,4 +1,4 @@
-package com.rickstart.moviefriend;
+package com.rickstart.moviefriend.ui.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,6 +15,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.AppEventsLogger;
+import com.rickstart.moviefriend.MovieGridFragment;
+import com.rickstart.moviefriend.R;
+import com.rickstart.moviefriend.ui.fragments.MovieDetailFragment;
+import com.rickstart.moviefriend.ui.fragments.NavigationDrawerFragment;
 
 
 public class MainActivity extends ActionBarActivity

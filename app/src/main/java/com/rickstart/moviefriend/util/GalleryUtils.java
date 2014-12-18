@@ -1,4 +1,4 @@
-package util;
+package com.rickstart.moviefriend.util;
 
 import android.app.AlertDialog;
 import android.content.Context;

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -15,10 +16,21 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.rickstart.moviefriend.models.Movie;
+import com.rickstart.moviefriend.ui.adapters.MovieAdapter;
+import com.rickstart.moviefriend.ui.fragments.NavigationDrawerFragment;
+import com.rickstart.moviefriend.util.GalleryUtils;
+import com.rickstart.moviefriend.util.ImageCache;
+import com.rickstart.moviefriend.util.ImageFetcher;
+import com.rickstart.moviefriend.util.Utils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -32,8 +44,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
-import util.GalleryUtils;
+import java.util.ArrayList;
 
 
 /**
@@ -47,19 +58,18 @@ import util.GalleryUtils;
 public class MovieGridFragment extends Fragment {
 
     private static final String API_KEY = "35hg37n2zaybbwf7wncj9vgw";
-
-    // the number of movies you want to get in a single request to their web server
+    private static final String IMAGE_CACHE_DIR = "thumbs";
     private static final int MOVIE_PAGE_LIMIT = 20;
-
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private EditText searchBox;
     private Button searchButton;
     private ListView moviesList;
     GridView gvMovies;
     private int columnWidth;
-
+    private ImageFetcher mImageFetcher;
     private GalleryUtils galleryUtils;
-
+    private MovieAdapter movieAdapter;
+    public ArrayList<Movie> movieArrayList;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -71,7 +81,9 @@ public class MovieGridFragment extends Fragment {
 
     private String query = "frozen";
     private OnFragmentInteractionListener mListener;
+    private ImageCache.ImageCacheParams cacheParams;
 
+    int mImageThumbSize;
 
     public static MovieGridFragment newInstance(String param1, String param2) {
         MovieGridFragment fragment = new MovieGridFragment();
@@ -89,6 +101,26 @@ public class MovieGridFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        galleryUtils = new GalleryUtils(getActivity());
+        cacheParams =
+                new ImageCache.ImageCacheParams(getActivity(), IMAGE_CACHE_DIR);
+        cacheParams.setMemCacheSizePercent(0.25f); // Set memory cache to 25% of app memory
+
+        mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
+        Resources r = getResources();
+        float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                GalleryUtils.GRID_PADDING, r.getDisplayMetrics());
+        // The ImageFetcher takes care of loading images into our ImageView children asynchronously
+        columnWidth = (int) ((galleryUtils.getScreenWidth() -(2*padding) - ((GalleryUtils.NUM_OF_COLUMNS + 1) * padding)) / GalleryUtils.NUM_OF_COLUMNS);
+        mImageFetcher = new ImageFetcher(getActivity(),mImageThumbSize,columnWidth);
+        mImageFetcher.setLoadingImage(R.drawable.empty_photo);
+        mImageFetcher.addImageCache(getActivity().getSupportFragmentManager(), cacheParams);
+
+
+        new RequestTask().execute("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=" + API_KEY + "&q="+query+"&page_limit=" + MOVIE_PAGE_LIMIT);
+
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -101,11 +133,44 @@ public class MovieGridFragment extends Fragment {
         // Inflate the layout for this fragment
         View row = inflater.inflate(R.layout.fragment_movie_grid, container, false);
         gvMovies = (GridView) row.findViewById(R.id.gvMovies);
-        galleryUtils = new GalleryUtils(getActivity());
+
+        initilizeGridLayout();
 
         // String[] list = new String[] {"Alex Rojas","Yussel Luna","Ricardo","4","5","6","7"};
-        new RequestTask().execute("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=" + API_KEY + "&q="+query+"&page_limit=" + MOVIE_PAGE_LIMIT);
 
+
+        gvMovies.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                // Pause fetcher to ensure smoother scrolling when flinging
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                    // Before Honeycomb pause image loading on scroll to help with performance
+                    if (!Utils.hasHoneycomb()) {
+                        mImageFetcher.setPauseWork(true);
+                    }
+                } else {
+                    mImageFetcher.setPauseWork(false);
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+            }
+        });
+
+        gvMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.beginTransaction();
+
+
+                Toast.makeText(getActivity(),movieArrayList.get(position).getTitle(),Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
         //MovieAdapter adapter = new MovieAdapter (getActivity(), list);
 
         //gvMovies.setAdapter(adapter);
@@ -261,43 +326,43 @@ public class MovieGridFragment extends Fragment {
             {
                 try
                 {
-                    // convert the String response to a JSON object,
-                    // because JSON is the response format Rotten Tomatoes uses
                     JSONObject jsonResponse = new JSONObject(response);
-
-                    // fetch the array of movies in the response
+                    movieArrayList =new ArrayList<Movie>();
                     JSONArray movies = jsonResponse.getJSONArray("movies");
 
-                    // add each movie's title to an array
-                    String[] movieTitles = new String[movies.length()];
-                    String[] moviePoster = new String[movies.length()];
+
                     for (int i = 0; i < movies.length(); i++)
                     {
+
+                        movieArrayList.add(new Movie());
                         JSONObject movie = movies.getJSONObject(i);
-                        movieTitles[i] = movie.getString("title");
                         JSONObject posters= movie.getJSONObject("posters");
-                        moviePoster[i] = posters.getString("original").replace("_tmb","_ori");
+                        JSONObject rating= movie.getJSONObject("ratings");
+                        movieArrayList.get(i).setTitle(movie.getString("title"));
+                        movieArrayList.get(i).setRating(Float.parseFloat(rating.getString("audience_score")));
+                        movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_ori"));
                     }
 
-                    Log.d("Test", jsonResponse.toString());
                     // update the UI
-                    refreshMoviesList(moviePoster);
+                    Log.d("Test", "Adp1");
+                    refreshMoviesList(movieArrayList);
+
                 }
                 catch (JSONException e)
                 {
 
+                    e.printStackTrace();
                     Log.d("Test", "Failed to parse the JSON response!");
                 }
             }
         }
     }
 
-    private void refreshMoviesList(String[] movieTitles)
+    private void refreshMoviesList(ArrayList<Movie> movies)
     {
-
-        initilizeGridLayout();
-        MovieAdapter adapter = new MovieAdapter (getActivity(), movieTitles, columnWidth);
-        gvMovies.setAdapter(adapter);
+        Log.d("Test", "Adp2");
+        movieAdapter = new MovieAdapter (getActivity(),columnWidth,movies,mImageFetcher);
+        gvMovies.setAdapter(movieAdapter);
 
     }
 
@@ -310,7 +375,7 @@ public class MovieGridFragment extends Fragment {
                 GalleryUtils.GRID_PADDING, r.getDisplayMetrics());
 
         columnWidth = (int) ((galleryUtils.getScreenWidth() -(2*padding) - ((GalleryUtils.NUM_OF_COLUMNS + 1) * padding)) / GalleryUtils.NUM_OF_COLUMNS);
-
+        Log.e("WIDTH", ""+columnWidth);
         gvMovies.setNumColumns(GalleryUtils.NUM_OF_COLUMNS);
         gvMovies.setColumnWidth(columnWidth);
         gvMovies.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);

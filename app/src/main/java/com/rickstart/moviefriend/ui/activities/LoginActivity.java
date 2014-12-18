@@ -1,9 +1,12 @@
-package com.rickstart.moviefriend;
+package com.rickstart.moviefriend.ui.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.rickstart.moviefriend.R;
+import com.rickstart.moviefriend.ui.fragments.LoginFragment;
 
 
 public class LoginActivity extends FragmentActivity {
