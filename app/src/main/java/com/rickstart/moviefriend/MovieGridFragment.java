@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 
+import com.rickstart.moviefriend.models.Casting;
 import com.rickstart.moviefriend.models.Movie;
 
 import org.apache.http.HttpResponse;
@@ -282,15 +283,31 @@ public class MovieGridFragment extends Fragment {
                     for (int i = 0; i < movies.length(); i++)
                     {
                         movieArrayList.add(new Movie());
+
                         JSONObject movie = movies.getJSONObject(i);
                         Log.e("MO_V", movie.toString());
                         //movieTitles[i] = movie.getString("title");
-                        JSONObject posters= movie.getJSONObject("posters");
-                        JSONObject rating= movie.getJSONObject("ratings");
+
+                        JSONObject posters = movie.getJSONObject("posters");
+                        JSONObject rating = movie.getJSONObject("ratings");
+                        JSONObject release = movie.getJSONObject("release_dates");
+                        JSONObject cast = movie.getJSONObject("abridged_cast");
+
+
                        // moviePoster[i] = posters.getString("original").replace("_tmb","_ori");
+
                         movieArrayList.get(i).setTitle(movie.getString("title"));
                         movieArrayList.get(i).setRating(Float.parseFloat(rating.getString("audience_score")));
                         movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_ori"));
+                        movieArrayList.get(i).setYear(Integer.parseInt(movie.getString("year")));
+                        movieArrayList.get(i).setRuntime(movie.getString("runtime"));
+                        movieArrayList.get(i).setReleaseDate(release.getString("theater"));
+
+                        movieArrayList.get(i).setSynopsis(movie.getString("synopsis"));
+                        movieArrayList.get(i).setCasting(new Casting(cast.getString("name"),cast.getString("characters")));
+
+
+
                     }
 
                     Log.d("Test", jsonResponse.toString());

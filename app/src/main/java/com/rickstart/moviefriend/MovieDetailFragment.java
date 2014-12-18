@@ -1,13 +1,19 @@
 package com.rickstart.moviefriend;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import com.rickstart.moviefriend.models.Movie;
 
+import java.io.Serializable;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,33 +26,28 @@ import android.view.ViewGroup;
 public class MovieDetailFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String id_movie = "movie";
+
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public static Movie movie;
 
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MovieDetailFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static MovieDetailFragment newInstance(String param1, String param2) {
+    public static MovieDetailFragment newInstance(Movie moviee) {
         MovieDetailFragment fragment = new MovieDetailFragment();
+        movie = moviee;
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(id_movie, getMovie(movie));
+
         fragment.setArguments(args);
         return fragment;
     }
 
+    public static Serializable getMovie(Movie movie){
+        return (Serializable) movie;
+    }
     public MovieDetailFragment() {
         // Required empty public constructor
     }
@@ -54,16 +55,35 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        if (movie != null) {
+
+
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        ImageView poster = (ImageView) container.findViewById(R.id.imageView);
+        TextView titulo = (TextView) container.findViewById(R.id.tv_title_movie);
+        TextView year = (TextView) container.findViewById(R.id.tv_year);
+        TextView runtime = (TextView) container.findViewById(R.id.tv_runtime);
+        TextView release = (TextView) container.findViewById(R.id.tv_date);
+        TextView synopsis = (TextView) container.findViewById(R.id.tv_synopsis);
+        RatingBar stars=(RatingBar) container.findViewById(R.id.ratingBarMovie);
+
+        poster.setImageResource(R.drawable.hobbit);
+
+        titulo.setText(movie.getTitle());
+        year.setText(movie.getYear());
+        runtime.setText(movie.getRuntime());
+        release.setText(movie.getRuntime());
+        synopsis.setText(movie.getSynopsis());
+
+        double rating;
+        rating= movie.getRating()*0.01*5;
+        stars.setRating((float) rating);
+
+
         return inflater.inflate(R.layout.fragment_movie_detail, container, false);
     }
 
