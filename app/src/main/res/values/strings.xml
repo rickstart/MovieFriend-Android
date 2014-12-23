@@ -5,6 +5,8 @@
     <string name="clear_cache_complete_toast">Caches have been cleared</string>
     <string name="imageview_description">Image Thumbnail</string>
     <string name="no_network_connection_toast">No network connection found</string>
+    <string name="menu_refresh">loading</string>
+    <string name="empty_search">Empty Search</string>
 
     <string name="app_name">MovieFriend</string>
     <string name="title_section1">Section 1</string>

@@ -9,15 +9,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.AppEventsLogger;
-import com.rickstart.moviefriend.MovieGridFragment;
 import com.rickstart.moviefriend.R;
 import com.rickstart.moviefriend.ui.fragments.MovieDetailFragment;
+import com.rickstart.moviefriend.ui.fragments.MovieGridFragment;
 import com.rickstart.moviefriend.ui.fragments.NavigationDrawerFragment;
 
 
@@ -84,7 +85,7 @@ public class MainActivity extends ActionBarActivity
                         .commit();
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.app_name);
                 mMovieGridFragment = new MovieGridFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, mMovieGridFragment)
@@ -136,8 +137,8 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        /*
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-/*
             getMenuInflater().inflate(R.menu.grid_movies, menu);
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -152,11 +153,13 @@ public class MainActivity extends ActionBarActivity
 
                     @Override
                     public boolean onQueryTextSubmit(String s) {
+                        Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
                         return false;
                     }
 
                     @Override
                     public boolean onQueryTextChange(String query) {
+                        Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
 
                         //loadData(query);
 
@@ -168,12 +171,16 @@ public class MainActivity extends ActionBarActivity
 
 
                 restoreActionBar();
-            }*/
+            }
 
             restoreActionBar();
         }
         return false;
         //return super.onCreateOptionsMenu(menu);
+        */
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
     }
 
 
