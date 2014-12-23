@@ -1,4 +1,4 @@
-package util;
+package com.rickstart.moviefriend.util;
 
 import android.content.Context;
 import android.util.AttributeSet;

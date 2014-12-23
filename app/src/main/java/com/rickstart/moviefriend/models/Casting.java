@@ -5,11 +5,12 @@ package com.rickstart.moviefriend.models;
  */
 public class Casting {
     private String name;
-    private String character;
+    private String character[];
 
-    public Casting(String name,String character){
+    public Casting(String name,String character[]){
         this.name=name;
         this.character=character;
+
     }
 
     public String getName() {
@@ -20,11 +21,11 @@ public class Casting {
         this.name = name;
     }
 
-    public String getCharacter() {
+    public String [] getCharacter() {
         return character;
     }
 
-    public void setCharacter(String character) {
+    public void setCharacter(String character[]) {
         this.character = character;
     }
 }

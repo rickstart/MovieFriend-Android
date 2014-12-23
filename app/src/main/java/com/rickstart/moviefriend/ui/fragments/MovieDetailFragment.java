@@ -1,4 +1,4 @@
-package com.rickstart.moviefriend;
+package com.rickstart.moviefriend.ui.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.rickstart.moviefriend.models.Movie;
 
 import java.io.Serializable;
+import com.rickstart.moviefriend.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,7 +73,7 @@ public class MovieDetailFragment extends Fragment {
         TextView synopsis = (TextView) container.findViewById(R.id.tv_synopsis);
         RatingBar stars=(RatingBar) container.findViewById(R.id.ratingBarMovie);
 
-        poster.setImageResource(R.drawable.hobbit);
+        //poster.setImageResource(R.drawable.hobbit);
 
         titulo.setText(movie.getTitle());
         year.setText(movie.getYear());

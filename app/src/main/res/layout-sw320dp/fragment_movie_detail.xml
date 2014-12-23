@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="10dp"
-    tools:context="com.rickstart.moviefriend.MovieDetailFragment"
+    tools:context="com.rickstart.moviefriend.ui.fragments.MovieDetailFragment"
     >
 
     <ImageView
