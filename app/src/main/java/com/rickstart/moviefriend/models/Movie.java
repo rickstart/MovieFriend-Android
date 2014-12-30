@@ -1,9 +1,11 @@
 package com.rickstart.moviefriend.models;
 
+import java.io.Serializable;
+
 /**
  * Created by mobilestudio03 on 08/12/14.
  */
-public class Movie {
+public class Movie implements Serializable{
     private String poster;
     private String title;
     private double rating;
