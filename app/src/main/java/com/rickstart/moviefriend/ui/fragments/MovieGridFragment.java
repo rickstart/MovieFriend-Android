@@ -1,4 +1,8 @@
 package com.rickstart.moviefriend.ui.fragments;
+<<<<<<< HEAD
+=======
+import com.rickstart.moviefriend.R;
+>>>>>>> aa189c211facc10e658143fb81f200d2fac987e7
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -219,30 +223,46 @@ public class MovieGridFragment extends Fragment implements Serializable{
             search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
                 @Override
+<<<<<<< HEAD
+                public boolean onQueryTextSubmit(String s){
+
+                    String query = s.trim().replaceAll(" +", "%20");
+                    new RequestTask().execute("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=" + API_KEY + "&q="+query+"&page_limit=" + MOVIE_PAGE_LIMIT);
+=======
                 public boolean onQueryTextSubmit(String s) {
+<<<<<<< HEAD
                     //Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
 
                     String query = s.trim().replaceAll(" +", "%20");
                     Toast.makeText(getActivity(),query,Toast.LENGTH_SHORT).show();
 
                     new RequestTask().execute("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=" + API_KEY + "&q="+query+"&page_limit=" + MOVIE_PAGE_LIMIT);
+=======
+>>>>>>> 5e47988acfee7b958d037481ecbe457cf5dd9fc0
+>>>>>>> aa189c211facc10e658143fb81f200d2fac987e7
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String query) {
+<<<<<<< HEAD
+=======
 
 
                     //loadData(query);
 
+>>>>>>> 5e47988acfee7b958d037481ecbe457cf5dd9fc0
                     return true;
-
                 }
 
             });
 
+<<<<<<< HEAD
 
             //restoreActionBar();
+=======
+<<<<<<< HEAD
+>>>>>>> aa189c211facc10e658143fb81f200d2fac987e7
         }
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -256,6 +276,26 @@ public class MovieGridFragment extends Fragment implements Serializable{
                 setRefreshActionButtonState(true);
                 // Complete with your code
                 return true;
+<<<<<<< HEAD
+=======
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void setRefreshActionButtonState(final boolean refreshing) {
+        if (optionsMenu != null) {
+            final MenuItem refreshItem = optionsMenu
+                    .findItem(R.id.airport_menuRefresh);
+            if (refreshItem != null) {
+                if (refreshing) {
+                    refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
+                } else {
+                    refreshItem.setActionView(null);
+                }
+            }
+=======
+>>>>>>> 5e47988acfee7b958d037481ecbe457cf5dd9fc0
+>>>>>>> aa189c211facc10e658143fb81f200d2fac987e7
         }
         return super.onOptionsItemSelected(item);
     }
@@ -293,6 +333,7 @@ public class MovieGridFragment extends Fragment implements Serializable{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
         /*try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
@@ -402,9 +443,14 @@ public class MovieGridFragment extends Fragment implements Serializable{
 
                         movieArrayList.get(i).setTitle(movie.getString("title"));
                         movieArrayList.get(i).setRating(Float.parseFloat(rating.getString("audience_score")));
+<<<<<<< HEAD
                         if(posters.has("original"))
                         movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_ori"));
                         movieArrayList.get(i).setYear(movie.optInt("year",0));
+=======
+                        movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_det"));
+                        movieArrayList.get(i).setYear(Integer.parseInt(movie.getString("year")));
+>>>>>>> aa189c211facc10e658143fb81f200d2fac987e7
                         movieArrayList.get(i).setRuntime(movie.getString("runtime"));
                         if(release.has("theater"))
                         movieArrayList.get(i).setReleaseDate(release.getString("theater"));
@@ -422,8 +468,12 @@ public class MovieGridFragment extends Fragment implements Serializable{
                             }
 
 
+<<<<<<< HEAD
                             //movieArrayList.get(i).getCasting(new Casting(cast.getJSONObject(j).getString("name"),characters));
                         }
+=======
+
+>>>>>>> aa189c211facc10e658143fb81f200d2fac987e7
                     }
 
                     // update the UI
@@ -445,6 +495,10 @@ public class MovieGridFragment extends Fragment implements Serializable{
     {
 
         if(movies!=null) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> aa189c211facc10e658143fb81f200d2fac987e7
             if(movies.size()==0)
                 Toast.makeText(getActivity(),getResources().getString(R.string.empty_search),Toast.LENGTH_SHORT).show();
             else {
@@ -452,6 +506,10 @@ public class MovieGridFragment extends Fragment implements Serializable{
                 gvMovies.setAdapter(movieAdapter);
             }
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> aa189c211facc10e658143fb81f200d2fac987e7
     }
 
 
@@ -463,7 +521,6 @@ public class MovieGridFragment extends Fragment implements Serializable{
                 GalleryUtils.GRID_PADDING, r.getDisplayMetrics());
 
         columnWidth = (int) ((galleryUtils.getScreenWidth() -(2*padding) - ((GalleryUtils.NUM_OF_COLUMNS + 1) * padding)) / GalleryUtils.NUM_OF_COLUMNS);
-        Log.e("WIDTH", ""+columnWidth);
         gvMovies.setNumColumns(GalleryUtils.NUM_OF_COLUMNS);
         gvMovies.setColumnWidth(columnWidth);
         gvMovies.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
@@ -471,5 +528,18 @@ public class MovieGridFragment extends Fragment implements Serializable{
         gvMovies.setHorizontalSpacing((int) padding);
         gvMovies.setVerticalSpacing((int) padding);
     }
+/*
+    @Override
+    public void onPause() {
+        super.onPause();
+        mImageFetcher.setPauseWork(false);
+        mImageFetcher.setExitTasksEarly(true);
+        mImageFetcher.flushCache();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mImageFetcher.closeCache();
+    }*/
 }

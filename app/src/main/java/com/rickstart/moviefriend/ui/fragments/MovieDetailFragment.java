@@ -25,39 +25,38 @@ import com.rickstart.moviefriend.R;
  * Use the {@link MovieDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MovieDetailFragment extends Fragment{
+public class MovieDetailFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String id_movie = "movie";
 
 
     // TODO: Rename and change types of parameters
-    private static  Movie movie;
+    public static Movie movie;
 
     private OnFragmentInteractionListener mListener;
 
-
-
-
     // TODO: Rename and change types and number of parameters
     public static MovieDetailFragment newInstance(Movie moviee) {
-       MovieDetailFragment fragment = new MovieDetailFragment();
-        this.movie = moviee;
+        MovieDetailFragment fragment = new MovieDetailFragment();
+        movie = moviee;
+        Bundle args = new Bundle();
+        args.putSerializable(id_movie, getMovie(movie));
 
+        fragment.setArguments(args);
         return fragment;
     }
 
     public static Serializable getMovie(Movie movie){
         return (Serializable) movie;
     }
-
+    public MovieDetailFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle= getArguments();
-         movie=(Movie) bundle.getSerializable("Movie");
-
         if (movie != null) {
 
 
