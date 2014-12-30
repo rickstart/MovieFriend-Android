@@ -215,30 +215,20 @@ public class MovieGridFragment extends Fragment {
             search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
                 @Override
-                public boolean onQueryTextSubmit(String s) {
-                    //Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
+                public boolean onQueryTextSubmit(String s){
 
                     String query = s.trim().replaceAll(" +", "%20");
-                    Toast.makeText(getActivity(),query,Toast.LENGTH_SHORT).show();
-
                     new RequestTask().execute("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=" + API_KEY + "&q="+query+"&page_limit=" + MOVIE_PAGE_LIMIT);
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String query) {
-
-
-                    //loadData(query);
-
                     return true;
-
                 }
 
             });
 
-
-            //restoreActionBar();
         }
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -289,6 +279,7 @@ public class MovieGridFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
         /*try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
@@ -389,7 +380,7 @@ public class MovieGridFragment extends Fragment {
                         JSONObject rating= movie.getJSONObject("ratings");
                         movieArrayList.get(i).setTitle(movie.getString("title"));
                         movieArrayList.get(i).setRating(Float.parseFloat(rating.getString("audience_score")));
-                        movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_ori"));
+                        movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_det"));
                     }
 
                     // update the UI
@@ -411,6 +402,7 @@ public class MovieGridFragment extends Fragment {
     {
 
         if(movies!=null) {
+
             if(movies.size()==0)
                 Toast.makeText(getActivity(),getResources().getString(R.string.empty_search),Toast.LENGTH_SHORT).show();
             else {
@@ -429,7 +421,6 @@ public class MovieGridFragment extends Fragment {
                 GalleryUtils.GRID_PADDING, r.getDisplayMetrics());
 
         columnWidth = (int) ((galleryUtils.getScreenWidth() -(2*padding) - ((GalleryUtils.NUM_OF_COLUMNS + 1) * padding)) / GalleryUtils.NUM_OF_COLUMNS);
-        Log.e("WIDTH", ""+columnWidth);
         gvMovies.setNumColumns(GalleryUtils.NUM_OF_COLUMNS);
         gvMovies.setColumnWidth(columnWidth);
         gvMovies.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
@@ -438,4 +429,17 @@ public class MovieGridFragment extends Fragment {
         gvMovies.setVerticalSpacing((int) padding);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mImageFetcher.setPauseWork(false);
+        mImageFetcher.setExitTasksEarly(true);
+        mImageFetcher.flushCache();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mImageFetcher.closeCache();
+    }
 }
