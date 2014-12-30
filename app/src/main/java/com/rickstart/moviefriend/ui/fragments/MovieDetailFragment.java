@@ -32,35 +32,40 @@ public class MovieDetailFragment extends Fragment {
 
 
     // TODO: Rename and change types of parameters
-    private Movie movie;
+    public static Movie movie;
 
     private OnFragmentInteractionListener mListener;
 
     // TODO: Rename and change types and number of parameters
-    public static MovieDetailFragment newInstance(Movie moviee) {
-        MovieDetailFragment fragment = new MovieDetailFragment(moviee);
-        /*movie = moviee;
+    public static MovieDetailFragment newInstance(Movie movie) {
+        MovieDetailFragment fragment = new MovieDetailFragment();
+
         Bundle args = new Bundle();
         args.putSerializable(id_movie, getMovie(movie));
 
-        fragment.setArguments(args);*/
+        fragment.setArguments(args);
         return fragment;
     }
 
     public static Serializable getMovie(Movie movie){
         return (Serializable) movie;
     }
-    public MovieDetailFragment(Movie movie) {
-        this.movie = movie;
+
+    public static Movie getMovie(Serializable movie){
+        return (Movie) movie;
+    }
+    public MovieDetailFragment() {
+        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (movie != null) {
+        Bundle bundle =getArguments();
+        Serializable serializable = bundle.getSerializable(id_movie);
+        movie = getMovie(serializable);
 
 
-        }
     }
 
     @Override

@@ -30,6 +30,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.rickstart.moviefriend.R;
+import com.rickstart.moviefriend.models.Casting;
 import com.rickstart.moviefriend.models.Movie;
 import com.rickstart.moviefriend.ui.adapters.MovieAdapter;
 import com.rickstart.moviefriend.util.GalleryUtils;
@@ -49,6 +50,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -60,7 +62,7 @@ import java.util.ArrayList;
  * Use the {@link MovieGridFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MovieGridFragment extends Fragment {
+public class MovieGridFragment extends Fragment implements Serializable{
 
     private static final String API_KEY = "35hg37n2zaybbwf7wncj9vgw";
     private static final String IMAGE_CACHE_DIR = "thumbs";
@@ -169,7 +171,8 @@ public class MovieGridFragment extends Fragment {
         gvMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MovieDetailFragment movieDetailFragment = new MovieDetailFragment(movieArrayList.get(position));
+                MovieDetailFragment movieDetailFragment = MovieDetailFragment.newInstance(movieArrayList.get(position));
+
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 fm.beginTransaction().replace(R.id.container, movieDetailFragment).addToBackStack(null)
                         .commit();
@@ -217,18 +220,31 @@ public class MovieGridFragment extends Fragment {
                 @Override
                 public boolean onQueryTextSubmit(String s){
 
+
+                    //Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
+
                     String query = s.trim().replaceAll(" +", "%20");
+                    Toast.makeText(getActivity(),query,Toast.LENGTH_SHORT).show();
+
                     new RequestTask().execute("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=" + API_KEY + "&q="+query+"&page_limit=" + MOVIE_PAGE_LIMIT);
+
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String query) {
+
+
+                    //loadData(query);
+
                     return true;
                 }
 
             });
 
+
+
+            //restoreActionBar();
         }
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -242,9 +258,13 @@ public class MovieGridFragment extends Fragment {
                 setRefreshActionButtonState(true);
                 // Complete with your code
                 return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
     public void setRefreshActionButtonState(final boolean refreshing) {
         if (optionsMenu != null) {
@@ -265,6 +285,7 @@ public class MovieGridFragment extends Fragment {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle("GRIS");
     }
+
 
     private ActionBar getActionBar() {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
@@ -373,18 +394,52 @@ public class MovieGridFragment extends Fragment {
 
                     for (int i = 0; i < movies.length(); i++)
                     {
-
                         movieArrayList.add(new Movie());
                         JSONObject movie = movies.getJSONObject(i);
+
+
+                        JSONObject release = movie.getJSONObject("release_dates");
+                        JSONArray cast = movie.getJSONArray("abridged_cast");
+
+
+                        // moviePoster[i] = posters.getString("original").replace("_tmb","_ori");
+
+
                         JSONObject posters= movie.getJSONObject("posters");
                         JSONObject rating= movie.getJSONObject("ratings");
                         movieArrayList.get(i).setTitle(movie.getString("title"));
                         movieArrayList.get(i).setRating(Float.parseFloat(rating.getString("audience_score")));
-                        movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_det"));
+
+                        //if(posters.has("original"))
+                        Log.e("POSTER",posters.getString("original").replace("_tmb","_ori"));
+                        movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_ori"));
+                        movieArrayList.get(i).setYear(movie.optInt("year",0));
+
+                        movieArrayList.get(i).setRuntime(movie.getString("runtime"));
+                        if(release.has("theater"))
+                        movieArrayList.get(i).setReleaseDate(release.getString("theater"));
+
+                        movieArrayList.get(i).setSynopsis(movie.getString("synopsis"));
+                        String characters[]=new String[1000];
+                        for(int j=0;j<cast.length();j++){
+                            JSONObject charactersJson = cast.getJSONObject(j);
+                            if(charactersJson.has("characters")) {
+
+
+                                movieArrayList.get(i).setCasting(new Casting());
+                                movieArrayList.get(i).getCasting().setName(cast.getJSONObject(j).getString("name"));
+
+                            }
+
+
+
+                            //movieArrayList.get(i).getCasting(new Casting(cast.getJSONObject(j).getString("name"),characters));
+                        }
+
                     }
 
                     // update the UI
-                    Log.d("Test", "Adp1");
+
                     refreshMoviesList(movieArrayList);
 
                 }
@@ -406,10 +461,14 @@ public class MovieGridFragment extends Fragment {
             if(movies.size()==0)
                 Toast.makeText(getActivity(),getResources().getString(R.string.empty_search),Toast.LENGTH_SHORT).show();
             else {
+                Log.d("Test", "Movies: "+movies.size());
+
                 movieAdapter = new MovieAdapter(getActivity(), columnWidth, movies, mImageFetcher);
                 gvMovies.setAdapter(movieAdapter);
             }
         }
+
+
     }
 
 
