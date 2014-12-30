@@ -31,31 +31,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:text="@string/hello_blank_fragment" />
+                android:text="titulo" />
 
-            <TextView android:id="@+id/tv_director"
+            <TextView android:id="@+id/tv_year"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:text="@string/hello_blank_fragment" />
+                android:text="year" />
 
             <TextView android:id="@+id/tv_date"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:text="@string/hello_blank_fragment" />
+                android:text="release date" />
 
-            <TextView android:id="@+id/tv_writer"
+            <TextView android:id="@+id/tv_runtime"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:text="@string/hello_blank_fragment" />
+                android:text="runtime" />
 
-            <TextView android:id="@+id/tv_stars"
+            <TextView android:id="@+id/tv_synopsis"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:text="@string/hello_blank_fragment" />
+                android:text="synopsis" />
 
             <RatingBar
                 android:layout_width="wrap_content"

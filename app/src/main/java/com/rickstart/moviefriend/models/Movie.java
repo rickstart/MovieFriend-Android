@@ -7,6 +7,12 @@ public class Movie {
     private String poster;
     private String title;
     private double rating;
+    private int year;
+    private String releaseDate;
+    private String synopsis;
+    private Casting casting;
+    private String runtime;
+
 
     public String getPoster() {
         return poster;
@@ -30,5 +36,45 @@ public class Movie {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
+    }
+
+    public Casting getCasting() {
+        return casting;
+    }
+
+    public void setCasting(Casting casting) {
+        this.casting = casting;
+    }
+
+    public String getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(String runtime) {
+        this.runtime = runtime;
     }
 }
