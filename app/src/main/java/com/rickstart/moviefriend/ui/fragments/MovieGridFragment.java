@@ -410,9 +410,8 @@ public class MovieGridFragment extends Fragment implements Serializable{
                         movieArrayList.get(i).setTitle(movie.getString("title"));
                         movieArrayList.get(i).setRating(Float.parseFloat(rating.getString("audience_score")));
 
-                        //if(posters.has("original"))
-                        Log.e("POSTER",posters.getString("original").replace("_tmb","_ori"));
-                        movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_ori"));
+                        if(posters.has("original"))
+                        movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_det"));
                         movieArrayList.get(i).setYear(movie.optInt("year",0));
 
                         movieArrayList.get(i).setRuntime(movie.getString("runtime"));
@@ -487,7 +486,7 @@ public class MovieGridFragment extends Fragment implements Serializable{
         gvMovies.setHorizontalSpacing((int) padding);
         gvMovies.setVerticalSpacing((int) padding);
     }
-/*
+
     @Override
     public void onPause() {
         super.onPause();
@@ -500,5 +499,5 @@ public class MovieGridFragment extends Fragment implements Serializable{
     public void onDestroy() {
         super.onDestroy();
         mImageFetcher.closeCache();
-    }*/
+    }
 }
