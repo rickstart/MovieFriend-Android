@@ -2,19 +2,30 @@ package com.rickstart.moviefriend.ui.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.rickstart.moviefriend.R;
 import com.rickstart.moviefriend.models.Movie;
 
+import java.io.IOException;
 import java.io.Serializable;
-import com.rickstart.moviefriend.R;
+import java.net.URL;
 
 
 /**
@@ -25,11 +36,12 @@ import com.rickstart.moviefriend.R;
  * Use the {@link MovieDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MovieDetailFragment extends Fragment implements Serializable{
+public class MovieDetailFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String id_movie = "movie";
-
+    LinearLayout detalle_fragment;
+    Context context;
 
     // TODO: Rename and change types of parameters
     public static Movie movie;
@@ -37,17 +49,22 @@ public class MovieDetailFragment extends Fragment implements Serializable{
     private OnFragmentInteractionListener mListener;
 
     // TODO: Rename and change types and number of parameters
-    public static MovieDetailFragment newInstance(Movie moviee) {
+    public static MovieDetailFragment newInstance(Movie movie) {
         MovieDetailFragment fragment = new MovieDetailFragment();
-        movie = moviee;
+
         Bundle args = new Bundle();
-        args.putSerializable("Movie", movie);
+        args.putSerializable(id_movie,movie);
+
         fragment.setArguments(args);
         return fragment;
     }
 
     public static Serializable getMovie(Movie movie){
         return (Serializable) movie;
+    }
+
+    public static Movie getMovie(Serializable movie){
+        return (Movie) movie;
     }
     public MovieDetailFragment() {
         // Required empty public constructor
@@ -56,29 +73,32 @@ public class MovieDetailFragment extends Fragment implements Serializable{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle= getArguments();
-         movie=(Movie) bundle.getSerializable("Movie");
+        context=getActivity();
+        Bundle bundle = getArguments();
+        if(bundle!=null)
+            movie = (Movie) bundle.getSerializable(id_movie);
 
-        if (movie != null) {
 
-
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        ImageView poster = (ImageView) container.findViewById(R.id.imageView);
-        TextView titulo = (TextView) container.findViewById(R.id.tv_title_movie);
-        TextView year = (TextView) container.findViewById(R.id.tv_year);
-        TextView runtime = (TextView) container.findViewById(R.id.tv_runtime);
-        TextView release = (TextView) container.findViewById(R.id.tv_date);
-        TextView synopsis = (TextView) container.findViewById(R.id.tv_synopsis);
-        RatingBar stars=(RatingBar) container.findViewById(R.id.ratingBarMovie);
+        View row = inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        //  ImageView poster = (ImageView) row.findViewById(R.id.imageView);
+        TextView titulo = (TextView) row.findViewById(R.id.tv_title_movie);
+        TextView year = (TextView) row.findViewById(R.id.tv_year);
+        TextView runtime = (TextView) row.findViewById(R.id.tv_runtime);
+        TextView release = (TextView) row.findViewById(R.id.tv_date);
+        TextView synopsis = (TextView) row.findViewById(R.id.tv_synopsis);
+        RatingBar stars=(RatingBar) row.findViewById(R.id.ratingBarMovie);
+
+        detalle_fragment=(LinearLayout) row.findViewById(R.id.detalle_layout);
+        new DownloadAsyncTask().execute(movie.getPoster());
 
         //poster.setImageResource(R.drawable.hobbit);
 
         titulo.setText(movie.getTitle());
-        year.setText(movie.getYear());
+        year.setText(""+movie.getYear());
         runtime.setText(movie.getRuntime());
         release.setText(movie.getRuntime());
         synopsis.setText(movie.getSynopsis());
@@ -88,7 +108,7 @@ public class MovieDetailFragment extends Fragment implements Serializable{
         stars.setRating((float) rating);
 
 
-        return inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        return row;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -98,11 +118,19 @@ public class MovieDetailFragment extends Fragment implements Serializable{
         }
     }
 
+    public void setBackGroundMovie(Bitmap bitmap){
+
+        BitmapDrawable ob = new BitmapDrawable(context.getResources(), bitmap);
+        detalle_fragment.setBackground(ob);
+
+
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-           // mListener = (OnFragmentInteractionListener) activity;
+            // mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -130,4 +158,34 @@ public class MovieDetailFragment extends Fragment implements Serializable{
         public void onFragmentInteraction(Uri uri);
     }
 
+    private class DownloadAsyncTask extends AsyncTask<String, String, Bitmap> {
+
+        private int position;
+
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            //load image directly
+
+            try {
+                URL imageURL = new URL(params[0]);
+                return BitmapFactory.decodeStream(imageURL.openStream());
+            } catch (IOException e) {
+                // TODO: handle exception
+                Log.e("error", "Downloading Image Failed");
+                return null;
+            }
+
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+
+            if (result != null) {
+                setBackGroundMovie(result);
+            }
+        }
+    }
 }

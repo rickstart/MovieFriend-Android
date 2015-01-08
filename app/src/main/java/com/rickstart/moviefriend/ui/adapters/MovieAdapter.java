@@ -40,8 +40,17 @@ public class MovieAdapter  extends ArrayAdapter<Movie> {
         this.movies = movies;
         this.imageWidth = imageWidth;
         this.mImageFetcher = mImageFetcher;
+        /*mImageViewLayoutParams = new GridView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        // Calculate ActionBar height
+        TypedValue tv = new TypedValue();
+        if (context.getTheme().resolveAttribute(
+                android.R.attr.actionBarSize, tv, true)) {
+            mActionBarHeight = TypedValue.complexToDimensionPixelSize(
+                    tv.data, context.getResources().getDisplayMetrics());
+        }*/
     }
-
+    /*
     @Override
     public int getCount() {
         // If columns have yet to be determined, return no items
@@ -78,7 +87,7 @@ public class MovieAdapter  extends ArrayAdapter<Movie> {
     @Override
     public boolean hasStableIds() {
         return true;
-    }
+    }*/
 
     @Override
     public View getView(int position, View convertView, ViewGroup container) {
@@ -87,6 +96,17 @@ public class MovieAdapter  extends ArrayAdapter<Movie> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
+        //BEGIN_INCLUDE(load_gridview_item)
+        // First check if this is the top row
+        /*if (position < mNumColumns) {
+            if (convertView == null) {
+                convertView = new View(mContext);
+            }
+            // Set empty view with height of ActionBar
+            convertView.setLayoutParams(new AbsListView.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, mActionBarHeight));
+            return convertView;
+        }*/
 
         // Now handle the main ImageView thumbnails
         ImageView imageView;
@@ -115,6 +135,7 @@ public class MovieAdapter  extends ArrayAdapter<Movie> {
         viewHolder.textView.setText(movie.getTitle());
         viewHolder.rating.setRating((float) rating);
 
+        Log.e("TEST_ADAP",movies.get(position).getPoster());
         mImageFetcher.loadImage(movies.get(position).getPoster(), viewHolder.poster);
 
 
