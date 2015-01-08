@@ -41,7 +41,7 @@ public class MovieDetailFragment extends Fragment {
         MovieDetailFragment fragment = new MovieDetailFragment();
 
         Bundle args = new Bundle();
-        args.putSerializable(id_movie, getMovie(movie));
+        args.putSerializable(id_movie,movie);
 
         fragment.setArguments(args);
         return fragment;
@@ -61,27 +61,27 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle =getArguments();
-        Serializable serializable = bundle.getSerializable(id_movie);
-        movie = getMovie(serializable);
-
+        Bundle bundle = getArguments();
+        if(bundle!=null)
+        movie = (Movie) bundle.getSerializable(id_movie);
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        ImageView poster = (ImageView) container.findViewById(R.id.imageView);
-        TextView titulo = (TextView) container.findViewById(R.id.tv_title_movie);
-        TextView year = (TextView) container.findViewById(R.id.tv_year);
-        TextView runtime = (TextView) container.findViewById(R.id.tv_runtime);
-        TextView release = (TextView) container.findViewById(R.id.tv_date);
-        TextView synopsis = (TextView) container.findViewById(R.id.tv_synopsis);
-        RatingBar stars=(RatingBar) container.findViewById(R.id.ratingBarMovie);
+        View row = inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        ImageView poster = (ImageView) row.findViewById(R.id.imageView);
+        TextView titulo = (TextView) row.findViewById(R.id.tv_title_movie);
+        TextView year = (TextView) row.findViewById(R.id.tv_year);
+        TextView runtime = (TextView) row.findViewById(R.id.tv_runtime);
+        TextView release = (TextView) row.findViewById(R.id.tv_date);
+        TextView synopsis = (TextView) row.findViewById(R.id.tv_synopsis);
+        RatingBar stars=(RatingBar) row.findViewById(R.id.ratingBarMovie);
 
         //poster.setImageResource(R.drawable.hobbit);
 
         titulo.setText(movie.getTitle());
-        year.setText(movie.getYear());
+        year.setText(""+movie.getYear());
         runtime.setText(movie.getRuntime());
         release.setText(movie.getRuntime());
         synopsis.setText(movie.getSynopsis());
@@ -91,7 +91,7 @@ public class MovieDetailFragment extends Fragment {
         stars.setRating((float) rating);
 
 
-        return inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        return row;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

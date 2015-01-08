@@ -172,7 +172,7 @@ public class MovieGridFragment extends Fragment implements Serializable{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MovieDetailFragment movieDetailFragment = MovieDetailFragment.newInstance(movieArrayList.get(position));
-
+                Log.e("MOVIE",movieArrayList.get(position).getTitle());
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 fm.beginTransaction().replace(R.id.container, movieDetailFragment).addToBackStack(null)
                         .commit();
