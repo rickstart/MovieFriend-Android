@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="10dp"
+    android:id="@+id/layout_detail"
     tools:context="com.rickstart.moviefriend.ui.fragments.MovieDetailFragment"
     >
 

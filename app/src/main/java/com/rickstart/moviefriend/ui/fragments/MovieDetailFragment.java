@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -77,7 +78,12 @@ public class MovieDetailFragment extends Fragment {
         TextView release = (TextView) row.findViewById(R.id.tv_date);
         TextView synopsis = (TextView) row.findViewById(R.id.tv_synopsis);
         RatingBar stars=(RatingBar) row.findViewById(R.id.ratingBarMovie);
+        LinearLayout linearLayout = (LinearLayout) row.findViewById(R.id.layout_detail);
+        int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk > android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            linearLayout.setBackgroundDrawable( getResources().getDrawable(R.drawable.hobbit) );
 
+        }
         //poster.setImageResource(R.drawable.hobbit);
 
         titulo.setText(movie.getTitle());
