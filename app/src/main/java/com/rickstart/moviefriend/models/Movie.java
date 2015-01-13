@@ -9,6 +9,7 @@ public class Movie implements Serializable{
     private String poster;
     private String title;
     private double rating;
+    private double criticsRating;
     private int year;
     private String releaseDate;
     private String synopsis;
@@ -78,5 +79,13 @@ public class Movie implements Serializable{
 
     public void setRuntime(String runtime) {
         this.runtime = runtime;
+    }
+
+    public double getCriticsRating() {
+        return criticsRating;
+    }
+
+    public void setCriticsRating(double criticsRating) {
+        this.criticsRating = criticsRating;
     }
 }
