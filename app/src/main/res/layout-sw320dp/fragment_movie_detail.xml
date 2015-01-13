@@ -6,73 +6,88 @@
     android:layout_margin="10dp"
     android:id="@+id/layout_detail"
     tools:context="com.rickstart.moviefriend.ui.fragments.MovieDetailFragment"
+
     >
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/interestelar"
-        android:layout_gravity="center_horizontal"
-        />
-
     <LinearLayout
+        android:id="@+id/detalle_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/hobbit"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_gravity="center_horizontal">
+            android:background="@color/black50"
 
-            <TextView android:id="@+id/tv_title_movie"
+            >
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:text="titulo" />
-
-            <TextView android:id="@+id/tv_year"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:text="year" />
-
-            <TextView android:id="@+id/tv_date"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:text="release date" />
-
-            <TextView android:id="@+id/tv_runtime"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:text="runtime" />
-
-            <TextView android:id="@+id/tv_synopsis"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:text="synopsis" />
-
-            <RatingBar
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ratingBarMovie"
-                android:numStars="5"
-                android:layout_margin="5dp"
-                android:layout_gravity="left"
-     />
+                android:orientation="horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView android:id="@+id/tv_title_movie"
+                        android:textColor="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:text="titulo" />
+
+                    <TextView android:id="@+id/tv_year"
+                        android:textColor="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:text="year" />
+
+                    <TextView android:id="@+id/tv_date"
+                        android:textColor="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:text="release date" />
+
+                    <TextView android:id="@+id/tv_runtime"
+                        android:textColor="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:text="runtime" />
+
+                    <TextView android:id="@+id/tv_synopsis"
+                        android:textColor="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:text="synopsis"
+                        android:textSize="@dimen/medium_letter"/>
+
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ratingBarMovie"
+                        android:numStars="5"
+                        android:layout_margin="5dp"
+                        android:layout_gravity="left"
+                        />
 
 
+                </LinearLayout>
+
+
+            </LinearLayout>
         </LinearLayout>
-
-
-        </LinearLayout>
-
+    </LinearLayout>
 
 
 </LinearLayout>

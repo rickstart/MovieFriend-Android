@@ -411,12 +411,12 @@ public class MovieGridFragment extends Fragment implements Serializable{
                         movieArrayList.get(i).setRating(Float.parseFloat(rating.getString("audience_score")));
 
                         if(posters.has("original"))
-                        movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_det"));
+                            movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_det"));
                         movieArrayList.get(i).setYear(movie.optInt("year",0));
 
                         movieArrayList.get(i).setRuntime(movie.getString("runtime"));
                         if(release.has("theater"))
-                        movieArrayList.get(i).setReleaseDate(release.getString("theater"));
+                            movieArrayList.get(i).setReleaseDate(release.getString("theater"));
 
                         movieArrayList.get(i).setSynopsis(movie.getString("synopsis"));
                         String characters[]=new String[1000];

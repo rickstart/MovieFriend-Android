@@ -1,9 +1,17 @@
 package com.rickstart.moviefriend.ui.fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +23,9 @@ import android.widget.TextView;
 import com.rickstart.moviefriend.R;
 import com.rickstart.moviefriend.models.Movie;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 
 
 /**
@@ -30,7 +40,8 @@ public class MovieDetailFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String id_movie = "movie";
-
+    LinearLayout detalle_fragment;
+    Context context;
 
     // TODO: Rename and change types of parameters
     public static Movie movie;
@@ -62,16 +73,18 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context=getActivity();
         Bundle bundle = getArguments();
         if(bundle!=null)
-        movie = (Movie) bundle.getSerializable(id_movie);
+            movie = (Movie) bundle.getSerializable(id_movie);
+
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View row = inflater.inflate(R.layout.fragment_movie_detail, container, false);
-        ImageView poster = (ImageView) row.findViewById(R.id.imageView);
+        //  ImageView poster = (ImageView) row.findViewById(R.id.imageView);
         TextView titulo = (TextView) row.findViewById(R.id.tv_title_movie);
         TextView year = (TextView) row.findViewById(R.id.tv_year);
         TextView runtime = (TextView) row.findViewById(R.id.tv_runtime);
@@ -84,6 +97,10 @@ public class MovieDetailFragment extends Fragment {
             linearLayout.setBackgroundDrawable( getResources().getDrawable(R.drawable.hobbit) );
 
         }
+
+        detalle_fragment=(LinearLayout) row.findViewById(R.id.detalle_layout);
+        new DownloadAsyncTask().execute(movie.getPoster());
+
         //poster.setImageResource(R.drawable.hobbit);
 
         titulo.setText(movie.getTitle());
@@ -107,11 +124,19 @@ public class MovieDetailFragment extends Fragment {
         }
     }
 
+    public void setBackGroundMovie(Bitmap bitmap){
+
+        BitmapDrawable ob = new BitmapDrawable(context.getResources(), bitmap);
+        detalle_fragment.setBackground(ob);
+
+
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-           // mListener = (OnFragmentInteractionListener) activity;
+            // mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -139,4 +164,34 @@ public class MovieDetailFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    private class DownloadAsyncTask extends AsyncTask<String, String, Bitmap> {
+
+        private int position;
+
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            //load image directly
+
+            try {
+                URL imageURL = new URL(params[0]);
+                return BitmapFactory.decodeStream(imageURL.openStream());
+            } catch (IOException e) {
+                // TODO: handle exception
+                Log.e("error", "Downloading Image Failed");
+                return null;
+            }
+
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+
+            if (result != null) {
+                setBackGroundMovie(result);
+            }
+        }
+    }
 }
