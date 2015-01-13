@@ -1,5 +1,6 @@
 package com.rickstart.moviefriend.ui.fragments;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Layout;
@@ -26,6 +28,7 @@ import com.rickstart.moviefriend.models.Movie;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import com.rickstart.moviefriend.models.*;
 
 
 /**
@@ -91,12 +94,9 @@ public class MovieDetailFragment extends Fragment {
         TextView release = (TextView) row.findViewById(R.id.tv_date);
         TextView synopsis = (TextView) row.findViewById(R.id.tv_synopsis);
         RatingBar stars=(RatingBar) row.findViewById(R.id.ratingBarMovie);
-        LinearLayout linearLayout = (LinearLayout) row.findViewById(R.id.layout_detail);
-        int sdk = android.os.Build.VERSION.SDK_INT;
-        if(sdk > android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            linearLayout.setBackgroundDrawable( getResources().getDrawable(R.drawable.hobbit) );
-
-        }
+        TextView audienceScore = (TextView) row.findViewById(R.id.tv_audience_score);
+        TextView criticsScore = (TextView) row.findViewById(R.id.tv_critics_score);
+        TextView reparto = (TextView) row.findViewById(R.id.tv_reparto);
 
         detalle_fragment=(LinearLayout) row.findViewById(R.id.detalle_layout);
         new DownloadAsyncTask().execute(movie.getPoster());
@@ -104,14 +104,21 @@ public class MovieDetailFragment extends Fragment {
         //poster.setImageResource(R.drawable.hobbit);
 
         titulo.setText(movie.getTitle());
-        year.setText(""+movie.getYear());
-        runtime.setText(movie.getRuntime());
-        release.setText(movie.getRuntime());
+        year.setText("Año: "+movie.getYear());
+        runtime.setText("Duracion: "+movie.getRuntime()+" min");
+        release.setText("Fecha de estreno: "+movie.getReleaseDate());
         synopsis.setText(movie.getSynopsis());
+        audienceScore.setText(String.valueOf("Calificacion audiencia: "+movie.getRating()));
+        criticsScore.setText(String.valueOf("Calificacion criticos "+movie.getCriticsRating()));
+
+
+        reparto.setText("Reparto: "+movie.getCasting().getName());
+
 
         double rating;
         rating= movie.getRating()*0.01*5;
         stars.setRating((float) rating);
+
 
 
         return row;
@@ -124,6 +131,7 @@ public class MovieDetailFragment extends Fragment {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void setBackGroundMovie(Bitmap bitmap){
 
         BitmapDrawable ob = new BitmapDrawable(context.getResources(), bitmap);

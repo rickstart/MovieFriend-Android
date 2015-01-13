@@ -72,6 +72,29 @@
                         android:text="synopsis"
                         android:textSize="@dimen/medium_letter"/>
 
+                    <TextView android:id="@+id/tv_reparto"
+                        android:textColor="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:text="reparto" />
+
+                    <TextView android:id="@+id/tv_audience_score"
+                        android:textColor="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:text="audience_score" />
+
+                    <TextView android:id="@+id/tv_critics_score"
+                        android:textColor="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:text="critics_score" />
+
+
+
                     <RatingBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -23,6 +23,8 @@
     <string name="title">titulo</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="send">Enviar</string>
+
 
 
 </resources>

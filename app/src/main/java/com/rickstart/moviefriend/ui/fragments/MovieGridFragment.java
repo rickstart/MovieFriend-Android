@@ -409,6 +409,7 @@ public class MovieGridFragment extends Fragment implements Serializable{
                         JSONObject rating= movie.getJSONObject("ratings");
                         movieArrayList.get(i).setTitle(movie.getString("title"));
                         movieArrayList.get(i).setRating(Float.parseFloat(rating.getString("audience_score")));
+                        movieArrayList.get(i).setCriticsRating(Float.parseFloat(rating.getString("critics_score")));
 
                         if(posters.has("original"))
                             movieArrayList.get(i).setPoster(posters.getString("original").replace("_tmb","_det"));
@@ -427,6 +428,8 @@ public class MovieGridFragment extends Fragment implements Serializable{
 
                                 movieArrayList.get(i).setCasting(new Casting());
                                 movieArrayList.get(i).getCasting().setName(cast.getJSONObject(j).getString("name"));
+                                characters[i]=cast.getJSONObject(j).getString("name");
+                               // Log.d("characters ",characters[i]);
 
                             }
 
