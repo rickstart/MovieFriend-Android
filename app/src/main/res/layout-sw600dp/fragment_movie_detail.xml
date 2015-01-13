@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="10dp"
+    android:id="@+id/layout_detail"
     tools:context="com.rickstart.moviefriend.ui.fragments.MovieDetailFragment"
 
     >
@@ -68,7 +69,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:text="synopsis" />
+                        android:text="synopsis"
+                        android:textSize="@dimen/medium_letter"/>
 
                     <RatingBar
                         android:layout_width="wrap_content"

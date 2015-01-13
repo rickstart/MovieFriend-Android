@@ -8,5 +8,6 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
     <dimen name="image_thumbnail_size">480dp</dimen>
     <dimen name="image_thumbnail_spacing">1dp</dimen>
+    <dimen name="medium_letter">15dp</dimen>
 
 </resources>
