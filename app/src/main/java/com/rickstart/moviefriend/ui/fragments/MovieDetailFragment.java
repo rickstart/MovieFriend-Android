@@ -6,29 +6,28 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rickstart.moviefriend.R;
 import com.rickstart.moviefriend.models.Movie;
+import com.rickstart.moviefriend.ui.ScoreDialogFragment;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
-import com.rickstart.moviefriend.models.*;
 
 
 /**
@@ -93,7 +92,7 @@ public class MovieDetailFragment extends Fragment {
         TextView runtime = (TextView) row.findViewById(R.id.tv_runtime);
         TextView release = (TextView) row.findViewById(R.id.tv_date);
         TextView synopsis = (TextView) row.findViewById(R.id.tv_synopsis);
-        RatingBar stars=(RatingBar) row.findViewById(R.id.ratingBarMovie);
+        final RatingBar stars=(RatingBar) row.findViewById(R.id.ratingBarMovie);
         TextView audienceScore = (TextView) row.findViewById(R.id.tv_audience_score);
         TextView criticsScore = (TextView) row.findViewById(R.id.tv_critics_score);
         TextView reparto = (TextView) row.findViewById(R.id.tv_reparto);
@@ -118,6 +117,38 @@ public class MovieDetailFragment extends Fragment {
         double rating;
         rating= movie.getRating()*0.01*5;
         stars.setRating((float) rating);
+
+        stars.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+
+                    ScoreDialogFragment scoreDialogFragment = new ScoreDialogFragment();
+                    // Show Alert DialogFragment
+                    scoreDialogFragment.show(getActivity().getSupportFragmentManager(), "Alert Dialog Fragment");
+                    float touchPositionX = event.getX();
+                    float width = stars.getWidth();
+                    float starsf = (touchPositionX / width) * 5.0f;
+                    int score = (int)starsf + 1;
+                    stars.setRating(score);
+
+                    Toast.makeText(getActivity(), String.valueOf("test"), Toast.LENGTH_SHORT).show();
+                    v.setPressed(false);
+                }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setPressed(true);
+                }
+
+                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    v.setPressed(false);
+                }
+
+
+
+
+                return true;
+            }});
+
 
 
 
