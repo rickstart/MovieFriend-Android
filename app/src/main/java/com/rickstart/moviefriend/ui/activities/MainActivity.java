@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.AppEventsLogger;
+import com.parse.Parse;
 import com.rickstart.moviefriend.R;
 import com.rickstart.moviefriend.ui.fragments.MovieDetailFragment;
 import com.rickstart.moviefriend.ui.fragments.MovieGridFragment;
@@ -60,6 +61,7 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -68,6 +70,10 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+
+        Parse.initialize(this, "5bUnGgj4WS0TqsW3QVnmGoBy4V80THToU5Qa2Qmh", "9d0G7CPXKmzFCGggKF9NJXEeSmrqDG7OrHBag5d0");
     }
 
     @Override

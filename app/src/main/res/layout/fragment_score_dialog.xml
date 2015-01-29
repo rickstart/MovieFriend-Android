@@ -18,9 +18,9 @@
         android:layout_gravity="center_horizontal|top" />
 
     <Button
+        android:id="@+id/btnSend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/send"
-        android:layout_gravity="right"
-        android:id="@+id/btnSend" />
+        android:layout_gravity="right"/>
 </LinearLayout>

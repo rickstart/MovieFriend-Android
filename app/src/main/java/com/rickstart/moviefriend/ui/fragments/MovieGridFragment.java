@@ -133,6 +133,8 @@ public class MovieGridFragment extends Fragment implements Serializable{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override

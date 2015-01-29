@@ -123,7 +123,7 @@ public class MovieDetailFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
 
-                    ScoreDialogFragment scoreDialogFragment = new ScoreDialogFragment();
+                    ScoreDialogFragment scoreDialogFragment = ScoreDialogFragment.newInstance(movie);
                     // Show Alert DialogFragment
                     scoreDialogFragment.show(getActivity().getSupportFragmentManager(), "Alert Dialog Fragment");
                     float touchPositionX = event.getX();
